@@ -14,18 +14,29 @@ function App() {
     const formData = new FormData();
     formData.append("file", file);
 
-    await fetch("http://localhost:5000/upload", {
-      method: "POST",
-      body: formData,
-    });
+    try {
+        const response = await fetch("/api/upload", {  // Ensure proxy is set up in vite.config.js
+            method: "POST",
+            body: formData,
+        });
+        const data = await response.json();
+        console.log("Upload Response:", data);
+        alert("File uploaded successfully!");
+    } catch (error) {
+        console.error("Error uploading file:", error);
+    }
   };
 
   const handleGenerateUrl = async () => {
     if (!file) return alert("Please upload a file before generating the URL.");
 
-    const response = await fetch(`http://localhost:5000/generate-url?filename=${file.name}`);
-    const data = await response.json();
-    setFileUrl(data.signed_url);
+    try {
+        const response = await fetch(`/api/generate-url?filename=${file.name}`);
+        const data = await response.json();
+        setFileUrl(data.signed_url);
+    } catch (error) {
+        console.error("Error generating URL:", error);
+    }
   };
 
   return (
@@ -34,7 +45,14 @@ function App() {
       <input type="file" onChange={handleFileChange} />
       <button onClick={handleUpload}>Upload</button>
       <button onClick={handleGenerateUrl}>Get File URL</button>
-      {fileUrl && <a href={fileUrl} target="_blank" rel="noopener noreferrer">Download File</a>}
+      {fileUrl && (
+        <div>
+          <p>Download Link:</p>
+          <a href={fileUrl} target="_blank" rel="noopener noreferrer">
+            Download File
+          </a>
+        </div>
+      )}
     </div>
   );
 }
