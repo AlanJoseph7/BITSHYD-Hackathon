@@ -5,7 +5,7 @@ import datetime
 from google.cloud import storage
 
 import os
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:\\Users\\gokul\\Desktop\\BITS HACKATHON\\bitshackathon-454516-a221a415869d.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:\\Users\\gokul\\Desktop\\BITS_HACKATHON\\bitshackathon-454516-a221a415869d.json"
 
 
 storage_client = storage.Client()
